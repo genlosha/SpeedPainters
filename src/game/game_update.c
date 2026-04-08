@@ -13,6 +13,22 @@ void update_start(Level *level, GameState *game_state) {
 }
 
 void update_level(Level *level, GameState *game_state) {
+    // fill random tile for solution every 5 sec
+    if (difftime(time(nullptr), level->time_solution) >= 5.0) {
+        level->time_solution = time(nullptr);
+        int i = 0;
+        // 1000 tries to find random nonempty and not yet filled tile for solution
+        while (i < 1000) {
+            i++;
+            const int x = GetRandomValue(0, level->grid.size - 1);
+            const int y = GetRandomValue(0, level->grid.size - 1);
+            if (level->grid.color_correct[x][y].a && !level->grid.color_solution[x][y].a) {
+                level->grid.color_solution[x][y] = level->grid.color_correct[x][y];
+                break;
+            }
+        }
+    }
+
     // update timer
     level->time_left = (int)difftime(level->time_end, time(nullptr));
 
@@ -21,9 +37,9 @@ void update_level(Level *level, GameState *game_state) {
     float tile_correct_count = 0.0f;
     for (int x = 0; x < level->grid.size; x++) {
         for (int y = 0; y < level->grid.size; y++) {
-            if (level->grid.color[x][y].a || level->grid.color_goal[x][y].a) {
+            if (level->grid.color[x][y].a || level->grid.color_correct[x][y].a) {
                 tile_count++;
-                if (!memcmp(&level->grid.color[x][y], &level->grid.color_goal[x][y], sizeof(Color))) {
+                if (!memcmp(&level->grid.color[x][y], &level->grid.color_correct[x][y], sizeof(Color))) {
                     tile_correct_count++;
                 }
             }

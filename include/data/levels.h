@@ -92,9 +92,9 @@ const Color level3_grid[] = {
 };
 
 const LevelData levels[] = {
-    {"Heart", 300, 2, level0_hotbar, 11, level0_grid},
+    {"Heart", 240, 2, level0_hotbar, 11, level0_grid},
     {"Panda", 300, 2, level1_hotbar, 13, level1_grid},
-    {"Bird", 300, 2, level2_hotbar, 9, level2_grid},
+    {"Bird", 120, 2, level2_hotbar, 9, level2_grid},
     {"Pokeball", 300, 2, level3_hotbar, 12, level3_grid}
 
 };

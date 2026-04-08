@@ -76,7 +76,8 @@ typedef struct {
     Rectangle rec;
     float outline;
     Color **color;
-    Color **color_goal;
+    Color **color_solution;
+    Color **color_correct;
 } Grid;
 
 typedef struct {
@@ -87,6 +88,7 @@ typedef struct {
     int time_left;
     time_t time_start;
     time_t time_end;
+    time_t time_solution;
 } Level;
 
 typedef struct {

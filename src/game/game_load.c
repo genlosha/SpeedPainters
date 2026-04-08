@@ -122,13 +122,18 @@ static void load_grid(Grid *grid, const LevelData *level_data) {
         grid->color[i] = calloc(grid->size, sizeof(Color));
     }
 
-    grid->color_goal = calloc(grid->size, sizeof(Color *));
+    grid->color_solution = calloc(grid->size, sizeof(Color *));
     for (int i = 0; i < grid->size; i++) {
-        grid->color_goal[i] = calloc(grid->size, sizeof(Color));
+        grid->color_solution[i] = calloc(grid->size, sizeof(Color));
+    }
+
+    grid->color_correct = calloc(grid->size, sizeof(Color *));
+    for (int i = 0; i < grid->size; i++) {
+        grid->color_correct[i] = calloc(grid->size, sizeof(Color));
     }
     for (int x = 0; x < grid->size; x++) {
         for (int y = 0; y < grid->size; y++) {
-            grid->color_goal[x][y] = level_data->grid_color[y * grid->size + x];
+            grid->color_correct[x][y] = level_data->grid_color[y * grid->size + x];
         }
     }
 
@@ -160,4 +165,5 @@ void load_level(Level *level) {
 
     level->time_start = time(nullptr) + 5;
     level->time_end = level->time_start + level_data->time;
+    level->time_solution = level->time_start;
 }

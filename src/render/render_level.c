@@ -34,7 +34,7 @@ static void render_grid(const Grid *grid, const bool level_started) {
                 grid->rec.width,
                 grid->rec.height
             };
-            DrawRectangleRec(rec, level_started ? grid->color[x][y] : grid->color_goal[x][y]);
+            DrawRectangleRec(rec, level_started ? grid->color[x][y] : grid->color_correct[x][y]);
             DrawRectangleRoundedLinesEx(rec, 0.0f, 32, grid->outline, C_GRAY);
         }
     }
@@ -174,7 +174,7 @@ static void render_controls(const Font *font) {
     );
 }
 
-static void render_info(const int time_left, const float completion, const Font *font) {
+static void render_info(const int time_left, const float completion, const Grid *grid, const Font *font) {
     // timer
     const Vector2 timer_title_size = MeasureTextEx(*font, "Time left", 64.0f, 0.0f);
     const int min_left = time_left / 60;
@@ -237,7 +237,7 @@ static void render_info(const int time_left, const float completion, const Font 
     // background rectangle for completion
     const Rectangle rec_completion = {
         46.0f,
-        rec_timer.y + rec_timer.height + 64.0f,
+        rec_timer.y + rec_timer.height + 32.0f,
         640.0f,
         80.0f + completion_title_size.y + completion_text_size.y
     };
@@ -287,9 +287,9 @@ static void render_info(const int time_left, const float completion, const Font 
     // background rectangle for solution
     const Rectangle rec_solution = {
         46.0f,
-        rec_completion.y + rec_completion.height + 64.0f,
+        rec_completion.y + rec_completion.height + 32.0f,
         640.0f,
-        1096.0f + 172.0f - (rec_completion.y + rec_completion.height + 64.0f)
+        1096.0f + 172.0f - (rec_completion.y + rec_completion.height + 32.0f)
     };
     DrawRectangleRounded(
         rec_solution,
@@ -317,6 +317,35 @@ static void render_info(const int time_left, const float completion, const Font 
         0.0f,
         C_DARKGRAY
     );
+
+    // whitegray background for solution grid
+    const Rectangle rec_solution_grid = {
+        rec_solution.x + (rec_solution.width - (1024.0f + 64.0f) * 0.375f) * 0.5f,
+        rec_solution.y + solution_title_size.y + 64.0f,
+        (1024.0f + 64.0f) * 0.375f,
+        (1024.0f + 64.0f) * 0.375f
+    };
+
+    DrawRectangleRounded(
+    rec_solution_grid,
+    0.0f,
+    32,
+    C_WHITEGRAY
+    );
+
+    // solution grid
+    for (int x = 0; x < grid->size; x++) {
+        for (int y = 0; y < grid->size; y++) {
+            const Rectangle rec = {
+                rec_solution_grid.x + 0.375f * (grid->outline + (float)x * (grid->rec.width + grid->outline)),
+                rec_solution_grid.y + 0.375f * (grid->outline + (float)y * (grid->rec.height + grid->outline)),
+                grid->rec.width * 0.375f,
+                grid->rec.height * 0.375f
+            };
+            DrawRectangleRec(rec, grid->color_solution[x][y]);
+            DrawRectangleRoundedLinesEx(rec, 0.0f, 32, grid->outline * 0.375f, C_GRAY);
+        }
+    }
 }
 
 void render_start(const Level *level, const Fonts *fonts) {
@@ -330,5 +359,5 @@ void render_level(const Level *level, const Fonts *fonts) {
     render_grid(&level->grid, true);
     render_hotbar(&level->hotbar, &fonts->main);
     render_controls(&fonts->main);
-    render_info(level->time_left, level->completion, &fonts->main);
+    render_info(level->time_left, level->completion, &level->grid, &fonts->main);
 }
