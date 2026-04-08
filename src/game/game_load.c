@@ -155,7 +155,7 @@ void load_level(Level *level) {
     const LevelData *level_data = &levels[GetRandomValue(0, levels_count - 1)];
 
     // select fixed random (for testing)
-    //const LevelData *level_data = &levels[3];
+   //const LevelData *level_data = &levels[0];
 
     load_hotbar(&level->hotbar, level_data);
     load_grid(&level->grid, level_data);

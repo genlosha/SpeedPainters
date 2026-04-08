@@ -13,8 +13,11 @@ constexpr Color C_BLACK = {75, 75, 75, 255};
 constexpr Color C_TRANSPARENTGRAY = {128, 128, 128, 128};
 
 constexpr Color C_RED = {255, 75, 75, 255};
-constexpr Color C_GREEN = {75  , 255, 75, 255};
+constexpr Color C_GREEN = {73  , 155, 90, 255};
+constexpr Color C_LIGHTGREEN = {131  , 194, 112, 255};
 constexpr Color C_BLUE = {75, 75, 255, 255};
+constexpr Color C_LIGHTBLUE = {83, 159, 221, 255};
 constexpr Color C_ORANGE = {237, 170, 97, 255};
+constexpr Color C_YELLOW = {250, 184, 45, 255};
 
 #endif // COLORS_H
