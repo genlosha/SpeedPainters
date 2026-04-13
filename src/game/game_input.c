@@ -53,7 +53,7 @@ static int input_menu(Menu *menu, const Renderer *renderer) {
         HideCursor();
     }
 
-    // only change when new selected slot within grid size
+    // only change when new selected slot within menu size
     if (selected_new >= 0 && selected_new < menu->size) {
         menu->buttons[menu->selected].selected = false;
         menu->buttons[menu->selected].pressed = false;
@@ -111,7 +111,7 @@ static int input_menu(Menu *menu, const Renderer *renderer) {
 }
 
 void input_menu_main(Menu *menu, GameState *game_state, bool *running, const Renderer *renderer) {
-    // trigger action for pressed button
+    // get pressed button and trigger action for it
     switch (input_menu(menu, renderer)) {
         case MENU_M_SP:
             *game_state = GAME_LOAD;
@@ -135,7 +135,7 @@ void input_menu_pause(Menu *menu, GameState *game_state, bool *running, const Re
         }
     }
 
-    // trigger action for pressed button
+    // get pressed button and trigger action for it
     switch (input_menu(menu, renderer)) {
         case MENU_P_RESUME:
             *game_state = GAME_RUN;
@@ -151,7 +151,7 @@ void input_menu_pause(Menu *menu, GameState *game_state, bool *running, const Re
 }
 
 void input_menu_end(Menu *menu, GameState *game_state, bool *running, const Renderer *renderer) {
-    // trigger action for pressed button
+    // get pressed button and trigger action for it
     switch (input_menu(menu, renderer)) {
         case MENU_E_NEW:
             *game_state = GAME_LOAD;
